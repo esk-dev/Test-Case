@@ -3,25 +3,28 @@ import { map, Observable } from 'rxjs';
 import { ApirequestService } from '../services/apirequest.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '../interfaces/user';
 @Component({
   selector: 'app-listofusers',
   templateUrl: './listofusers.component.html',
   styleUrls: ['./listofusers.component.css']
 })
 export class ListofusersComponent implements OnInit {
-  users$: Observable<any>;
-  data: any;
-  displayedColumns: string[] = ['id', 'name', 'year', 'color', 'pantone_value'];
+  usersId$: Observable<any>;
+  resources: any;
+  displayedColumns: string[] = [];
   constructor(public ApirequestService: ApirequestService, public Router: Router, public MatSnackBar: MatSnackBar) { }
 
-  ngOnInit() {
-    this.users$ = this.ApirequestService.getListOfUsers().pipe(map((users: any) => users.data));
+  ngOnInit(): void {
+    this.usersId$ = this.ApirequestService.getListOfUsers().pipe(map((users: any) => users.data));
     this.ApirequestService.getListOfResource().subscribe((resources: any) => {
-      this.data = resources.data,
-      console.log(resources)
-    });
+      this.resources = resources.data
+      Object.keys(resources.data).forEach(key => this.displayedColumns.push(key))
+    }), (error) => {
+      console.log(erro)
+    };
   }
-  deleteUser(id: string | number) {
+  deleteUser(id: string | number): void {
     this.ApirequestService.deleteUser(id).subscribe(
       response => {
         console.log(response)

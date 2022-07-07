@@ -15,11 +15,14 @@ export class UserinformationComponent implements OnInit {
     firstName: new FormControl<string>('', [Validators.required]),
     lastName: new FormControl<string>('', [Validators.required]),
   });
+
   constructor(
     public ActivatedRoute: ActivatedRoute, 
     public ApirequestService: ApirequestService
   ) { }
-  ngOnInit() {
+
+  ngOnInit(): void {
+    this.userData.disable();
     this.ActivatedRoute.paramMap.pipe(
       map((params: any) => params.get('id')),
       switchMap((id: string) => this.ApirequestService.getUserIformationById(id))
@@ -29,18 +32,20 @@ export class UserinformationComponent implements OnInit {
         firstName: userInformation.data.first_name,
         lastName: userInformation.data.last_name,
       })
-    })
+    });
   };
 
-  updateUserInformation(): void {
+  enableForm(): void {
+    this.userData.disabled ? this.userData.enable() : this.userData.disable();
+  }
+
+  onSubmit(): void {
     this.ApirequestService.updateUserInformation(this.ActivatedRoute.snapshot.paramMap.get('id'), this.userData.value)
       .subscribe(
         response => {
-          console.log(response);
           console.log('The information was updated successfully!');
-        })
+        });
+        
   }
-
-
-
+  
 }
