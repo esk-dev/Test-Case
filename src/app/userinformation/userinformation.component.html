@@ -1,0 +1,41 @@
+<section class="user-information">
+  
+  <div class="user-label">
+    <h2>Email</h2>
+    <h2>First name</h2>
+    <h2>Last name</h2>
+  </div>
+
+  <form [formGroup]="userData" (ngSubmit)="updateUserInformation()">
+    <mat-form-field appearance="fill" class="form-field">
+      <input 
+      matInput
+      formControlName="email"
+      >
+      <mat-error *ngIf="userData.get('email')?.hasError('email')">Email not valid</mat-error>
+      <mat-error *ngIf="userData.get('email')?.hasError('required')">Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <input 
+      matInput
+      formControlName="firstName"
+      >
+      <mat-error *ngIf="userData.controls['firstName'].invalid">Required</mat-error>
+    </mat-form-field>  
+
+    <mat-form-field appearance="fill" class="form-field"> 
+      <input 
+      matInput
+      formControlName="lastName"
+      >
+      <mat-error *ngIf="userData.controls['lastName'].invalid">Required</mat-error>
+    </mat-form-field>  
+    
+    <!-- <input 
+    type="file"
+    formControlName="avatar"
+    > -->
+    <button mat-button color="primary" type="submit" [disabled]="!userData.dirty || userData.invalid">Change my data</button>
+  </form>
+</section>
