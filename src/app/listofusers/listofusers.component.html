@@ -1,12 +1,12 @@
-<mat-card-title>Users</mat-card-title>
+<div><mat-card-title>Users</mat-card-title></div>
 <section class="users">
   <ng-container *ngFor="let user of usersId$ | async">
     <app-usercard [id]="user.id"></app-usercard>
   </ng-container>
 </section>
-<mat-card-title>Resources</mat-card-title>
 <section class="resources">
-  <table mat-table [dataSource]="resources">
+<div><mat-card-title>Resources</mat-card-title></div>
+  <table mat-table [dataSource]="resources" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> ID </th>
       <td mat-cell *matCellDef="let resources"> {{resources.id}} </td>

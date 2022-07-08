@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { map } from 'rxjs';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { SnackbarService } from '../services/snackbar.service';
+import { User } from '../interfaces/user';
 import { ApirequestService } from '../services/apirequest.service';
 @Component({
   selector: 'app-usercard',
@@ -8,8 +9,8 @@ import { ApirequestService } from '../services/apirequest.service';
 })
 export class UsercardComponent implements OnChanges {
   @Input() id: string | number;
-  user;
-  constructor(public ApirequestService: ApirequestService) { }
+  user: User;
+  constructor(public ApirequestService: ApirequestService, public snackbar: SnackbarService) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.id && changes.id.currentValue) {
@@ -24,9 +25,10 @@ export class UsercardComponent implements OnChanges {
   deleteUser(id: string | number) {
     this.ApirequestService.deleteUser(id).subscribe(
       response => {
-        console.log(response)
+        this.snackbar.open('User deleted', 'Ok')
       }
     ), (error) => {
+      this.snackbar.open('Error', 'Ok'),
       console.log(error)
     }
   }
