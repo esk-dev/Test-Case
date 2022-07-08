@@ -35,6 +35,11 @@ export class ApirequestService {
       this.urlUser + `${id}`, data
     );
   }
+  upload(file: File) {
+    let formParams = new FormData();
+    formParams.append('file', file)
+    return this.http.post(this.urlUser, formParams)
+  }
 
   deleteUser(id: string | number): Observable<any> {
     return this.http.delete(

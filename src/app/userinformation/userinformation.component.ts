@@ -15,9 +15,8 @@ export class UserinformationComponent implements OnInit {
     email: new FormControl('', [Validators.email, Validators.required]),
     firstName: new FormControl<string>('', [Validators.required]),
     lastName: new FormControl<string>('', [Validators.required]),
-    avatar: new FormControl(''),
   });
-
+  file: File = null;
   constructor(
     public ActivatedRoute: ActivatedRoute, 
     public ApirequestService: ApirequestService,
@@ -34,7 +33,6 @@ export class UserinformationComponent implements OnInit {
         email: userInformation.data.email,
         firstName: userInformation.data.first_name,
         lastName: userInformation.data.last_name,
-        avatar: userInformation.data.avatar
       })
     });
   };
@@ -43,6 +41,20 @@ export class UserinformationComponent implements OnInit {
     this.userForm.disabled ? this.userForm.enable() : this.userForm.disable();
   }
 
+  onfilechange(event: any) {
+    console.log(event.target.files[0])
+    this.file = event.target.files[0]
+  }
+  uploadFile(){
+    if (this.file) {
+      this.ApirequestService.upload(this.file).subscribe(response => {
+        this.snackbar.open('Uploaded', 'ok')
+      })
+    } else {
+        this.snackbar.open('Select a file', 'ok')
+      }
+    }
+    
   onSubmit(): void {
     this.ApirequestService.updateUserInformation(this.ActivatedRoute.snapshot.paramMap.get('id'), this.userForm.value)
       .subscribe(
@@ -51,7 +63,6 @@ export class UserinformationComponent implements OnInit {
             email: response.data.email,
             firstName: response.data.first_name,
             lastName: response.data.last_name,
-            avatar: response.data.avatar
           })
           this.snackbar.open('The information was updated successfully!', 'Ok')
         }), (error) => {

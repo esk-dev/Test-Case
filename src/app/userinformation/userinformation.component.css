@@ -10,6 +10,10 @@ form {
   align-items: stretch;
   width: 100%;
 }
+img {
+  width: 80px;
+  height: 80px;
+}
 .form-filed {
   width: 100%;
 }

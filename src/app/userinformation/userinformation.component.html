@@ -1,6 +1,6 @@
 <section class="user-information">
-  <img [src]="userForm.avatar.value"> 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <img [src]="userForm.controls['avatar'].value"> 
     <mat-card-title>Email</mat-card-title>
     <mat-form-field appearance="outline" class="form-field">
       <input 
@@ -28,14 +28,18 @@
       >
       <mat-error *ngIf="userForm.controls['lastName'].invalid">Required</mat-error>
     </mat-form-field>  
-    
-    <mat-card-title>Insert your new avatar</mat-card-title>
-      <input 
-    
-      formControlName="avatar"
-      >
     <div>
-    <button mat-button color="primary" type="submit" [disabled]="userForm.invalid || userForm.disabled">Change my data</button>
+    <mat-card-title>Insert your new avatar</mat-card-title>
+      <input
+      type="file" 
+      #fileInput
+      id="avatar"
+      (change)="onFileChange($event)" 
+      >
+      <button mat-button color="primary" type="button" (click)="uploadFile()">Load file</button>
+    </div>
+    <div>
+    <button mat-button color="primary" type="submit" [disabled]="userForm.invalid || userForm.disabled || loading">Change my data</button>
     <button mat-button color="primary" type="button" [disabled]="userForm.invalid" (click)="enableForm()">Edit</button>
     </div>
   </form>
