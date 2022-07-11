@@ -24,24 +24,19 @@ export class ApirequestService {
     );
   }
 
-  getUserIformationById(id: string | number): Observable<any> {
+  getUserIformationById(id: number | string): Observable<any> {
     return this.http.get(
       this.urlUser + `${id}`
     );
   }
 
-  updateUserInformation(id: string | number, data): Observable<any> {
+  updateUserInformation(id: number | string, data): Observable<any> {
     return this.http.put(
       this.urlUser + `${id}`, data
     );
   }
-  upload(file: File) {
-    let formParams = new FormData();
-    formParams.append('file', file)
-    return this.http.post(this.urlUser, formParams)
-  }
 
-  deleteUser(id: string | number): Observable<any> {
+  deleteUser(id: number | string): Observable<any> {
     return this.http.delete(
       this.urlUser + `${id}`
     );

@@ -8,7 +8,7 @@ import { ApirequestService } from '../services/apirequest.service';
   styleUrls: ['./usercard.component.css']
 })
 export class UsercardComponent implements OnChanges {
-  @Input() id: string | number;
+  @Input() id: number;
   user: User;
   constructor(public ApirequestService: ApirequestService, public snackbar: SnackbarService) { }
 
@@ -18,14 +18,15 @@ export class UsercardComponent implements OnChanges {
     }
   }
 
-  getUser(id: string | number) {
+  getUser(id: number) {
     this.ApirequestService.getUserIformationById(id).subscribe((user: any) => this.user = user.data);
   }
 
-  deleteUser(id: string | number) {
+  deleteUser(id: number) {
     this.ApirequestService.deleteUser(id).subscribe(
       response => {
         this.snackbar.open('User deleted', 'Ok')
+        console.log(response)
       }
     ), (error) => {
       this.snackbar.open('Error', 'Ok'),

@@ -11,6 +11,7 @@ import { SnackbarService } from '../services/snackbar.service';
   styleUrls: ['./userinformation.component.css']
 })
 export class UserinformationComponent implements OnInit {
+  img: string;
   userForm = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     firstName: new FormControl<string>('', [Validators.required]),
@@ -26,13 +27,14 @@ export class UserinformationComponent implements OnInit {
     this.userForm.disable();
     this.ActivatedRoute.paramMap.pipe(
       map((params: any) => params.get('id')),
-      switchMap((id: string) => this.ApirequestService.getUserIformationById(id))
+      switchMap((id: number) => this.ApirequestService.getUserIformationById(id))
     ).subscribe((userInformation: any) => {
       this.userForm.setValue({
         email: userInformation.data.email,
         firstName: userInformation.data.first_name,
         lastName: userInformation.data.last_name,
-      })
+      }),
+      this.img = userInformation.data.avatar
     });
   };
 
@@ -44,11 +46,6 @@ export class UserinformationComponent implements OnInit {
     this.ApirequestService.updateUserInformation(this.ActivatedRoute.snapshot.paramMap.get('id'), this.userForm.value)
       .subscribe(
         (response: any) => {
-          this.userForm.setValue({
-            email: response.data.email,
-            firstName: response.data.first_name,
-            lastName: response.data.last_name,
-          })
           this.snackbar.open('The information was updated successfully!', 'Ok')
         }), (error) => {
           this.snackbar.open('Error', 'Ok')

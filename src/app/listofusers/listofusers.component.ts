@@ -15,7 +15,7 @@ export class ListofusersComponent implements OnInit {
   resources: Resources[];
   displayedColumns: string[] = ["id", "name", "year", "color", "pantone_value"];
   constructor(public ApirequestService: ApirequestService, public Router: Router, public snackbar: SnackbarService) { }
-
+  
   ngOnInit(): void {
     this.usersId$ = this.ApirequestService.getListOfUsers().pipe(map((users: any) => users.data));
     this.ApirequestService.getListOfResource().subscribe((resources: any) => {
